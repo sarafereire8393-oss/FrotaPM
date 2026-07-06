@@ -1,0 +1,14 @@
+{
+  "name": "frotapm",
+  "version": "1.0.0",
+  "description": "Sistema de Gestão Inteligente de Frotas da Polícia Militar de Blumenau",
+  "main": "index.js",
+  "scripts": {
+    "start": "node backend/server.js",
+    "dev": "nodemon backend/server.js",
+    "test": "jest"
+  },
+  "keywords": ["frota", "manutenção", "rastreamento"],
+  "author": "",
+  "license": "MIT"
+}

@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viaturas - FrotaPM</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="dashboard.html">🚗 FrotaPM</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="viaturas.html">Viaturas</a></li>
+                    <li class="nav-item"><a class="nav-link" href="manutencao.html">Manutenção</a></li>
+                    <li class="nav-item"><a class="nav-link" href="rastreamento.html">Rastreamento</a></li>
+                    <li class="nav-item"><a class="nav-link" href="relatorios.html">Relatórios</a></li>
+                    <li class="nav-item"><a class="nav-link" onclick="logout()" style="cursor: pointer;">Logout</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container-dashboard container-fluid py-5">
+        <div class="row mb-4">
+            <div class="col-lg-8">
+                <h1>Gerenciamento de Viaturas</h1>
+            </div>
+            <div class="col-lg-4 text-end">
+                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalViatura">+ Nova Viatura</button>
+            </div>
+        </div>
+
+        <!-- Tabela de Viaturas -->
+        <div class="card">
+            <div class="card-header">
+                <h5>Lista de Viaturas</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Prefixo</th>
+                                <th>Placa</th>
+                                <th>Modelo</th>
+                                <th>Ano</th>
+                                <th>KM</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabela-viaturas">
+                            <tr>
+                                <td colspan="7" class="text-center">Carregando...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Nova/Editar Viatura -->
+    <div class="modal fade" id="modalViatura" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitulo">Nova Viatura</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="form-viatura">
+                        <div class="mb-3">
+                            <label for="prefixo" class="form-label">Prefixo *</label>
+                            <input type="text" class="form-control" id="prefixo" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="placa" class="form-label">Placa *</label>
+                            <input type="text" class="form-control" id="placa" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="modelo" class="form-label">Modelo *</label>
+                            <input type="text" class="form-control" id="modelo" required>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="ano" class="form-label">Ano *</label>
+                                    <input type="number" class="form-control" id="ano" required>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label for="km" class="form-label">KM</label>
+                                    <input type="number" class="form-control" id="km" step="0.01">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="chassi" class="form-label">Chassi</label>
+                            <input type="text" class="form-control" id="chassi">
+                        </div>
+                        <div class="mb-3">
+                            <label for="unidade" class="form-label">Unidade Responsável</label>
+                            <input type="text" class="form-control" id="unidade">
+                        </div>
+                        <div class="mb-3">
+                            <label for="status" class="form-label">Status</label>
+                            <select class="form-select" id="status">
+                                <option value="operacional">Operacional</option>
+                                <option value="manutencao">Manutenção</option>
+                                <option value="parada">Parada</option>
+                            </select>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btnSalvarViatura">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Histórico -->
+    <div class="modal fade" id="modalHistorico" tabindex="-1">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Histórico da Viatura</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="table-responsive">
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Data</th>
+                                    <th>Tipo</th>
+                                    <th>Descrição</th>
+                                    <th>Custo</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tabela-historico">
+                                <tr>
+                                    <td colspan="4" class="text-center">Carregando...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 FrotaPM - Gestão de Frotas | SENAI/SC - Blumenau</p>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/app.js"></script>
+    <script src="js/viaturas.js"></script>
+    <script>
+        let viaturaEmEdicao = null;
+
+        // Carregar viaturas ao iniciar
+        carregarViaturas();
+
+        // Abrir modal para nova viatura
+        document.getElementById('modalViatura').addEventListener('show.bs.modal', function() {
+            viaturaEmEdicao = null;
+            document.getElementById('modalTitulo').innerText = 'Nova Viatura';
+            document.getElementById('form-viatura').reset();
+        });
+
+        // Salvar viatura
+        document.getElementById('btnSalvarViatura').addEventListener('click', async () => {
+            if (viaturaEmEdicao) {
+                await atualizarViatura(viaturaEmEdicao);
+            } else {
+                await criarViatura();
+            }
+            bootstrap.Modal.getInstance(document.getElementById('modalViatura')).hide();
+            carregarViaturas();
+        });
+
+        // Editar viatura
+        async function abrirEdicao(id) {
+            try {
+                const response = await fetch(`${API_URL}/viaturas/${id}`, {
+                    headers: getHeaders()
+                });
+                const viatura = await response.json();
+
+                document.getElementById('prefixo').value = viatura.prefixo;
+                document.getElementById('placa').value = viatura.placa;
+                document.getElementById('modelo').value = viatura.modelo;
+                document.getElementById('ano').value = viatura.ano;
+                document.getElementById('km').value = viatura.km;
+                document.getElementById('chassi').value = viatura.chassi;
+                document.getElementById('unidade').value = viatura.unidade;
+                document.getElementById('status').value = viatura.status;
+
+                viaturaEmEdicao = id;
+                document.getElementById('modalTitulo').innerText = 'Editar Viatura';
+                new bootstrap.Modal(document.getElementById('modalViatura')).show();
+            } catch (error) {
+                console.error('Erro ao carregar viatura:', error);
+                alert('Erro ao carregar dados da viatura');
+            }
+        }
+
+        // Visualizar histórico
+        async function abrirHistorico(id) {
+            try {
+                const response = await fetch(`${API_URL}/manutencao/viatura/${id}`, {
+                    headers: getHeaders()
+                });
+                const historico = await response.json();
+
+                const tabela = document.getElementById('tabela-historico');
+                tabela.innerHTML = '';
+
+                if (historico.length === 0) {
+                    tabela.innerHTML = '<tr><td colspan="4" class="text-center">Sem histórico de manutenção</td></tr>';
+                } else {
+                    historico.forEach(h => {
+                        tabela.innerHTML += `
+                            <tr>
+                                <td>${new Date(h.data).toLocaleDateString('pt-BR')}</td>
+                                <td>${h.tipo}</td>
+                                <td>${h.descricao}</td>
+                                <td>R$ ${parseFloat(h.custo).toFixed(2)}</td>
+                            </tr>
+                        `;
+                    });
+                }
+
+                new bootstrap.Modal(document.getElementById('modalHistorico')).show();
+            } catch (error) {
+                console.error('Erro ao carregar histórico:', error);
+                alert('Erro ao carregar histórico');
+            }
+        }
+
+        // Adicionar funções ao window para chamar do HTML
+        window.abrirEdicao = abrirEdicao;
+        window.abrirHistorico = abrirHistorico;
+    </script>
+</body>
+</html>

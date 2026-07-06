@@ -17,9 +17,10 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav ms-auto">
-                    <li class="nav-item"><a class="nav-link" href="dashboard.html">Dashboard</a></li>
+                    <li class="nav-item"><a class="nav-link active" href="dashboard.html">Dashboard</a></li>
                     <li class="nav-item"><a class="nav-link" href="viaturas.html">Viaturas</a></li>
                     <li class="nav-item"><a class="nav-link" href="manutencao.html">Manutenção</a></li>
+                    <li class="nav-item"><a class="nav-link" href="rastreamento.html">Rastreamento</a></li>
                     <li class="nav-item"><a class="nav-link" href="relatorios.html">Relatórios</a></li>
                     <li class="nav-item"><a class="nav-link" onclick="logout()" style="cursor: pointer;">Logout</a></li>
                 </ul>
@@ -43,7 +44,7 @@
             <div class="col-md-3 col-sm-6 mb-3">
                 <div class="card text-center">
                     <div class="card-body">
-                        <h5 class="card-title">Viaturas Operacionais</h5>
+                        <h5 class="card-title">Operacionais</h5>
                         <h2 id="viaturas-operacionais" style="color: #28a745;">0</h2>
                     </div>
                 </div>
@@ -52,15 +53,43 @@
                 <div class="card text-center">
                     <div class="card-body">
                         <h5 class="card-title">Em Manutenção</h5>
-                        <h2 id="viaturas-manutencao" style="color: #dc3545;">0</h2>
+                        <h2 id="viaturas-manutencao" style="color: #ffc107;">0</h2>
                     </div>
                 </div>
             </div>
             <div class="col-md-3 col-sm-6 mb-3">
                 <div class="card text-center">
                     <div class="card-body">
+                        <h5 class="card-title">Paradas</h5>
+                        <h2 id="viaturas-paradas" style="color: #dc3545;">0</h2>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Métricas Secundárias -->
+        <div class="row mb-4">
+            <div class="col-md-4 mb-3">
+                <div class="card text-center">
+                    <div class="card-body">
                         <h5 class="card-title">Disponibilidade da Frota</h5>
-                        <h2 id="disponibilidade" style="color: #007bff;">0%</h2>
+                        <h3 id="disponibilidade" style="color: #007bff;">0%</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Custos (Mês Atual)</h5>
+                        <h3 id="custos-mes" style="color: #dc3545;">R$ 0,00</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4 mb-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <h5 class="card-title">Manutenções (Mês Atual)</h5>
+                        <h3 id="manutencoes-mes" style="color: #28a745;">0</h3>
                     </div>
                 </div>
             </div>
@@ -70,9 +99,11 @@
         <div class="row mb-4">
             <div class="col-lg-12">
                 <div class="card">
-                    <div class="card-header">Rastreamento em Tempo Real</div>
+                    <div class="card-header">
+                        <h5>Rastreamento em Tempo Real</h5>
+                    </div>
                     <div class="card-body">
-                        <div id="map"></div>
+                        <div id="map" style="height: 500px; border-radius: 8px;"></div>
                     </div>
                 </div>
             </div>
